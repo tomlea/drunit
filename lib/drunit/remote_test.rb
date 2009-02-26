@@ -1,6 +1,5 @@
 require 'drb'
 require 'test/unit'
-require Rails.root + '/test/factories'
 
 module Drunit
   class RemoteError < RuntimeError

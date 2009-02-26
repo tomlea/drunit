@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
-require 'config/boot'
-require 'config/environment'
+
 require File.join(File.dirname(__FILE__), *%w[.. lib drunit remote_test])
 
 include Drunit
@@ -9,5 +8,7 @@ DRb.start_service nil, RemoteTest.new
 
 STDOUT.puts DRb.uri
 STDOUT.reopen(STDERR)
+
+load ARGV.first
 
 DRb.thread.join

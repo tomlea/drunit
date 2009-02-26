@@ -1,7 +1,13 @@
 module Drunit
   class RemoteError < RuntimeError
     def class
-      Struct.new(:name).new(@real_exception)
+      if Object.const_defined?(@real_exception)
+        Object.const_get(@real_exception)
+      else
+        e = Class.new(Exception)
+        e.instance_eval("def name; #{@real_exception.inspect}; end" )
+        e
+      end
     end
   end
 
