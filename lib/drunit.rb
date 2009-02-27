@@ -1,13 +1,22 @@
 module Drunit
   class RemoteError < RuntimeError
+    def self.name
+      @@name
+    end
+
     def class
-      if Object.const_defined?(@real_exception)
-        Object.const_get(@real_exception)
+      if type = look_up_exception
+        return type
       else
-        e = Class.new(Exception)
-        e.instance_eval("def name; #{@real_exception.inspect}; end" )
-        e
+        @@name = @real_exception.to_s
+        super
       end
+    end
+
+    def look_up_exception
+      @real_exception.split("::").inject(Object){|node, part|
+        node && node.const_defined?(part) && node.const_get(part)
+      }
     end
   end
 
