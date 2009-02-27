@@ -5,7 +5,9 @@ module Drunit
   class RemoteApp
     def initialize(name, boot = nil)
       @name = name
-      @boot = boot || "name/script/runner"
+      @boot = boot
+      @boot ||= "#{name}/test/drunit_test_helper.rb" if File.exist? "#{name}/test/drunit_test_helper.rb"
+      @boot ||= "#{name}/test/test_helper.rb" if File.exist? "#{name}/test/test_helper.rb"
       @remote_object = nil
     end
 
