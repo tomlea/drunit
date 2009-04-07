@@ -3,7 +3,7 @@
 require File.join(File.dirname(__FILE__), *%w[.. lib drunit remote_test])
 
 include Drunit
-require ARGV.first
+require ARGV.first if ARGV.first
 
 DRb.start_service nil, RemoteTest.new
 
