@@ -10,6 +10,4 @@ DRb.start_service nil, RemoteTest.new
 STDOUT.puts "DRUNIT:URI #{DRb.uri}"
 STDOUT.reopen(STDERR)
 
-load ARGV.shift
-
 DRb.thread.join
