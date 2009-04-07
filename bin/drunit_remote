@@ -7,7 +7,7 @@ require ARGV.first if ARGV.first
 
 DRb.start_service nil, RemoteTest.new
 
-STDOUT.puts DRb.uri
+STDOUT.puts "DRUNIT:URI #{DRb.uri}"
 STDOUT.reopen(STDERR)
 
 load ARGV.shift

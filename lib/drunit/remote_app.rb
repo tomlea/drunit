@@ -29,11 +29,18 @@ module Drunit
       raise e
     end
 
+    def get_url(pipe)
+      pipe.each_line do |line|
+        return $1 if line =~ /^DRUNIT:URI (.*)$/
+        STDERR.puts "From drunit_remote>> #{line}"
+      end
+    end
+
     def start_app!
       drb_server = File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "bin", "drunit_remote"))
       pipe = IO.popen("#{drb_server} #{@boot}")
       pid = pipe.pid
-      url = pipe.gets.chomp
+      url = get_url(pipe) or raise "Could not establish connection to the remote drunit instance."
       remote_object = DRbObject.new(nil, url)
       ObjectSpace.define_finalizer(remote_object, proc{|id| Process.kill("KILL", pid) && Process.wait})
       return remote_object
