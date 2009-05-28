@@ -1,25 +1,6 @@
 require "rubygems"
+
 module Drunit
-  class RemoteError < RuntimeError
-    def self.name
-      @@name
-    end
-
-    def class
-      if type = look_up_exception
-        return type
-      else
-        @@name = @real_exception.to_s
-        super
-      end
-    end
-
-    def look_up_exception
-      @real_exception.split("::").inject(Object){|node, part|
-        node && node.const_defined?(part) && node.const_get(part)
-      }
-    end
-  end
 
   module ClassMethods
     def RemoteApp(name, *args)
@@ -34,6 +15,7 @@ module Drunit
     remote_app_for(name).last_assertion_count.times{ add_assertion } rescue nil
   end
 
+private
   def remote_app_for(name)
     self.class.const_get("RemoteAppFor_#{name}")
   end
@@ -48,4 +30,5 @@ module Drunit
 end
 
 require File.join(File.dirname(__FILE__), *%w[drunit remote_app])
+require File.join(File.dirname(__FILE__), *%w[drunit remote_error])
 

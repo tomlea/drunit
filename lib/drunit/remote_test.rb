@@ -1,13 +1,8 @@
 require 'drb'
 require 'test/unit'
+require File.join(File.dirname(__FILE__), *%w[remote_error])
 
 module Drunit
-  class RemoteError < RuntimeError
-    def initialize(real_exception)
-      @real_exception = real_exception
-    end
-  end
-
   class RemoteTest
     attr_reader :last_assertion_count
 
