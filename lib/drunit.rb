@@ -28,16 +28,18 @@ module Drunit
   end
 
   def in_app(name, *args, &block)
-    file, line, method = eval("caller(0).first", block.binding).split(":")
-    method ||= "unknown_method"
-    method.gsub!(/^in /, "").gsub!(/[^a-zA-Z0-9_?!]/, "")
-    remote_app_for(name).run(method, file, line.to_i, *args, &block)
+    file, line, method = caller_file_and_method_for_block(&block)
+    remote_app_for(name).run(method, file, line, *args, &block)
   ensure
     remote_app_for(name).last_assertion_count.times{ add_assertion } rescue nil
   end
 
   def remote_app_for(name)
     self.class.const_get("RemoteAppFor_#{name}")
+  end
+
+  def caller_file_and_method_for_block(&block)
+    eval(%%caller(0)[0] =~ /in `(.*)'/; [__FILE__, __LINE__, $1 || 'unknown_method']%, block.binding)
   end
 
   def self.included(other)
