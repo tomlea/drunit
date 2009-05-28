@@ -26,7 +26,7 @@ class MainTest < Test::Unit::TestCase
 
   def test_should_inject_the_fact_we_are_in_a_remote_app_into_the_backtrace
     e = assert_raise(RuntimeError) { InApp{ raise "Fail" } }
-    assert_equal 1, e.backtrace.grep("RemoteApp<fake_app>").size
+    assert_equal 1, e.backtrace.grep("in drunit_remote(fake_app)").size, e.backtrace.join("\n")
   end
 
   def test_should_raise_the_assertion_count_when_we_assert
@@ -37,5 +37,10 @@ class MainTest < Test::Unit::TestCase
 
   def test_should_be_able_to_pass_in_simple_params
     assert_equal 12, InApp(2,6){|a,b| SomeFoo.new.multiply(a, b)}
+  end
+
+  def test_consistant_remote_instance
+    InApp{ @foo = 1 }
+    InApp{ assert_equal 1, @foo }
   end
 end

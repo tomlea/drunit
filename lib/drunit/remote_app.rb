@@ -11,24 +11,11 @@ module Drunit
       @remote_object = nil
     end
 
-    def run(method_name, file, line, *args, &block)
-      raise_or_return(app.eval(block_to_source(method_name, &block), file, line, method_name, *args), method_name)
-    end
-
-    def last_assertion_count
-      app.last_assertion_count
+    def new_test_case
+      app.new_test_case
     end
 
   private
-    def raise_or_return(e, method_name)
-      return e unless e.is_a? Exception
-      if first_remote_line = e.backtrace.grep(Regexp.new(method_name)).last
-        index = e.backtrace.index(first_remote_line)
-        raise e, e.message, e.backtrace[0..index] + ["RemoteApp<#{@name}>"] + caller(0)
-      end
-      raise e
-    end
-
     def get_url(pipe)
       pipe.each_line do |line|
         return $1 if line =~ /^DRUNIT:URI (.*)$/
@@ -48,12 +35,6 @@ module Drunit
 
     def app
       @remote_object ||= start_app!
-    end
-
-    def block_to_source(method_name, &block)
-      m = Module.new
-      m.send(:define_method, method_name, &block)
-      Ruby2Ruby.translate(m, method_name)
     end
   end
 end
