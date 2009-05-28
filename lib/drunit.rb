@@ -21,9 +21,12 @@ module Drunit
 
 private
   def rewrite_backtrace(e, method_name, app_name)
-    if first_remote_line = e.backtrace.grep(Regexp.new(method_name)).last
-      index = e.backtrace.index(first_remote_line)
-      raise e, e.message, e.backtrace[0..index] + ["in drunit_remote(#{app_name})"] + caller(0)
+    backtrace = e.backtrace
+    if first_remote_line = backtrace.grep(Regexp.new(method_name)).first
+      index = backtrace.index(first_remote_line)
+      backtrace = backtrace[0..index] + ["in drunit_remote(#{app_name})"] + caller(1)
+      backtrace.map!{|line| line.gsub(/\(druby:\/\/[^\)]+\) /, "")}
+      raise e, e.message, backtrace
     end
   end
 
