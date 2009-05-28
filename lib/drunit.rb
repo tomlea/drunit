@@ -28,9 +28,10 @@ module Drunit
   end
 
   def in_app(name, *args, &block)
-    file, line, method = caller(2).first.split(":")
+    file, line, method = eval("caller(0).first", block.binding).split(":")
     method ||= "unknown_method"
-    remote_app_for(name).run(method.gsub(/^in /, "").gsub(/[^a-zA-Z0-9_?!]/, ""), file, line.to_i, *args, &block)
+    method.gsub!(/^in /, "").gsub!(/[^a-zA-Z0-9_?!]/, "")
+    remote_app_for(name).run(method, file, line.to_i, *args, &block)
   ensure
     remote_app_for(name).last_assertion_count.times{ add_assertion } rescue nil
   end
