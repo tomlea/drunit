@@ -13,7 +13,8 @@ module Drunit
     end
 
     def class
-      return type if type = look_up_exception
+      type = look_up_exception
+      return type if type
       super.name = @exception_name #Now we hope and prey that the name of the class is checked imidiately
       super
     end
