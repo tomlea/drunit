@@ -1,3 +1,4 @@
+require "rubygems"
 module Drunit
   class RemoteError < RuntimeError
     def self.name
