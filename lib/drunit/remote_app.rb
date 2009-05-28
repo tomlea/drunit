@@ -32,7 +32,7 @@ module Drunit
     def get_url(pipe)
       pipe.each_line do |line|
         return $1 if line =~ /^DRUNIT:URI (.*)$/
-        STDERR.puts "From drunit_remote>> #{line}"
+        STDERR.puts "From drunit_remote(#{@name})>> #{line}"
       end
     end
 
