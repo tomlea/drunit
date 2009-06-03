@@ -26,6 +26,7 @@ module Drunit
       end
 
       def run(method_name, *args)
+        @assertion_count = 0
         rewrite_exceptions{ __send__(method_name, *args) }
       end
 

@@ -35,6 +35,13 @@ class MainTest < Test::Unit::TestCase
     assert_equal original_count + 1, @_result.assertion_count
   end
 
+  def test_should_not_count_the_same_assert_twice
+    original_count = @_result.assertion_count
+    InApp{ assert true}
+    InApp{ assert true}
+    assert_equal original_count + 2, @_result.assertion_count
+  end
+
   def test_should_be_able_to_pass_in_simple_params
     assert_equal 12, InApp(2,6){|a,b| SomeFoo.new.multiply(a, b)}
   end
