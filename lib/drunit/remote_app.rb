@@ -11,8 +11,8 @@ module Drunit
       @remote_object = nil
     end
 
-    def new_test_case
-      app.new_test_case
+    def new_test_case(class_name = "Test::Unit::TestCase")
+      app.new_test_case(class_name)
     end
 
   private

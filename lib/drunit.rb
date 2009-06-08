@@ -6,6 +6,15 @@ module Drunit
     def RemoteApp(name, *args)
       const_set "RemoteAppFor_#{name}", RemoteApp.new(name, *args)
     end
+
+    def drunit_test_case_class_name
+      @drunit_test_case_class_name ||
+        (superclass.respond_to?(:drunit_test_case_class_name) ? superclass.drunit_test_case_class_name : "Test::Unit::TestCase")
+    end
+
+    def set_drunit_test_case_class_name(name)
+      @drunit_test_case_class_name = name
+    end
   end
 
   def in_app(name, *args, &block)
@@ -42,7 +51,15 @@ private
 
   def remote_test_case_for(name)
     @remote_test_cases ||= {}
-    @remote_test_cases[name.to_sym] ||= remote_app_for(name).new_test_case
+    @remote_test_cases[name.to_sym] ||= remote_app_for(name).new_test_case(drunit_test_case_class_name)
+  end
+
+  def set_drunit_test_case_class_name(name)
+    @drunit_test_case_class_name = name
+  end
+
+  def drunit_test_case_class_name
+    @drunit_test_case_class_name || self.class.drunit_test_case_class_name
   end
 
   def caller_file_and_method_for_block(&block)

@@ -4,14 +4,19 @@ require File.join(File.dirname(__FILE__), *%w[remote_error])
 
 module Drunit
   class RemoteTest
-    def new_test_case
-      TestCase.new
+    def new_test_case(name)
+      tc = Class.new(eval(name, Object.class_eval{ binding }))
+      tc.send(:include, TestCaseModule)
+      tc.allocate
     end
 
-    class TestCase
-      include DRb::DRbUndumped
-      include Test::Unit::Assertions
-      attr_reader :assertion_count
+    module TestCaseModule
+      def self.included(other)
+        other.send(:class_eval) do
+          include DRb::DRbUndumped
+          attr_reader :assertion_count
+        end
+      end
 
       def initialize
         @assertion_count = 0
