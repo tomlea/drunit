@@ -3,11 +3,12 @@ require 'ruby2ruby'
 
 module Drunit
   class RemoteApp
-    def initialize(name, boot = nil)
+    def initialize(name, boot = nil, dir = nil)
       @name = name
       @boot = boot
       @boot ||= "#{name}/test/drunit_test_helper.rb" if File.exist? "#{name}/test/drunit_test_helper.rb"
       @boot ||= "#{name}/test/test_helper.rb" if File.exist? "#{name}/test/test_helper.rb"
+      @dir = dir || "."
       @remote_object = nil
     end
 
@@ -25,7 +26,7 @@ module Drunit
 
     def start_app!
       drb_server = File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "bin", "drunit_remote"))
-      pipe = IO.popen("#{drb_server} #{@boot}")
+      pipe = IO.popen("cd #{@dir} && #{drb_server} #{@boot}")
       pid = pipe.pid
       url = get_url(pipe) or raise "Could not establish connection to the remote drunit instance."
       remote_object = DRbObject.new(nil, url)

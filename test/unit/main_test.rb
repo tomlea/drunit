@@ -2,7 +2,7 @@ require File.join(File.dirname(__FILE__), *%w[.. test_helper])
 
 class MainTest < Test::Unit::TestCase
   include Drunit
-  RemoteApp(:fake_app, FAKE_APP_PATH + "/fake_app.rb")
+  RemoteApp(:fake_app, FAKE_APP_PATH + "/fake_app.rb", FAKE_APP_PATH)
   def InApp(*args, &block)
     in_app(:fake_app, *args, &block)
   end
@@ -11,6 +11,11 @@ class MainTest < Test::Unit::TestCase
     InApp do
       assert true
     end
+  end
+
+  def test_should_be_in_the_given_dir
+    actual = InApp{ File.expand_path Dir.pwd }
+    assert_equal File.expand_path(FAKE_APP_PATH), actual
   end
 
   def test_should_raise_an_exception
