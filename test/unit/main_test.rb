@@ -2,7 +2,7 @@ require File.join(File.dirname(__FILE__), *%w[.. test_helper])
 
 class MainTest < Test::Unit::TestCase
   include Drunit
-  RemoteApp(:fake_app, FAKE_APP_PATH + "/fake_app.rb", FAKE_APP_PATH)
+  RemoteApp(:fake_app, "fake_app.rb", FAKE_APP_PATH)
   def InApp(*args, &block)
     in_app(:fake_app, *args, &block)
   end

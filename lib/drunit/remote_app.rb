@@ -6,9 +6,9 @@ module Drunit
     def initialize(name, boot = nil, dir = nil)
       @name = name
       @boot = boot
-      @boot ||= "#{name}/test/drunit_test_helper.rb" if File.exist? "#{name}/test/drunit_test_helper.rb"
-      @boot ||= "#{name}/test/test_helper.rb" if File.exist? "#{name}/test/test_helper.rb"
-      @dir = dir || "."
+      @dir = File.expand_path(dir || name)
+      @boot ||= "test/drunit_test_helper.rb" if File.exist? "#{@dir}/test/drunit_test_helper.rb"
+      @boot ||= "test/test_helper.rb" if File.exist? "#{@dir}/test/test_helper.rb"
       @remote_object = nil
     end
 
