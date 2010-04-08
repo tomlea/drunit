@@ -17,7 +17,7 @@ end
 
 spec = Gem::Specification.new do |s|
   s.name        = %q{drunit}
-  s.version     = "0.4.1"
+  s.version     = "0.4.2"
   s.summary     = %q{A library for running tests across multiple applications from a single test case.}
   s.description = %q{A library for running tests across multiple applications from a single test case.}
 
