@@ -9,6 +9,8 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.test_files   = Dir[*['test/**/*_test.rb']]
 
+  s.add_dependency 'ruby2ruby', '~>1.1.0'
+
   s.has_rdoc         = true
   s.extra_rdoc_files = ["README.markdown"]
   s.rdoc_options = ['--line-numbers', '--inline-source', "--main", "README.markdown"]
