@@ -7,8 +7,8 @@ A library for running tests across multiple applications from a single test case
 
     class MainTest < Test::Unit::TestCase
       include Drunit
-      RemoteApp(:fake_app, FAKE_APP_PATH + "/fake_app.rb")
-      RemoteApp(:rails_app, RAILS_APP_PATH + "/script/runner")
+      RemoteApp(:fake_app, 'fake_app.rb', FAKE_APP_PATH)
+      RemoteApp(:rails_app, 'script/runner', RAILS_APP_PATH)
 
       def test_should_use_the_same_db
         id = in_app(:fake_app){
