@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = %q{drunit}
-  s.version     = "0.5.0"
+  s.version     = "0.5.1"
   s.summary     = %q{A library for running tests across multiple applications from a single test case.}
   s.description = %q{A library for running tests across multiple applications from a single test case.}
 
@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.test_files   = Dir[*['test/**/*_test.rb']]
 
-  s.add_dependency 'ruby2ruby', '~>1.1.0'
+  s.add_dependency 'ruby2ruby', '1.2.2'
 
   s.has_rdoc         = true
   s.extra_rdoc_files = ["README.markdown"]

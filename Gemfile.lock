@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    drunit (0.5.0)
-      ruby2ruby (~> 1.1.0)
+    drunit (0.5.11)
+      ruby2ruby (= 1.2.2)
 
 GEM
   remote: http://rubygems.org/
@@ -13,12 +13,9 @@ GEM
     RubyInline (3.9.0)
       ZenTest (~> 4.3)
     ZenTest (4.5.0)
-    hoe (2.9.1)
-      rake (>= 0.8.7)
     rake (0.8.7)
-    ruby2ruby (1.1.9)
-      ParseTree
-      hoe (>= 1.5.3)
+    ruby2ruby (1.2.2)
+      ParseTree (~> 3.0)
     sexp_processor (3.0.5)
 
 PLATFORMS
@@ -26,3 +23,4 @@ PLATFORMS
 
 DEPENDENCIES
   drunit!
+  rake
